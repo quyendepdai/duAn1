@@ -1,7 +1,0 @@
-git add .
-git commit -m "note"
-git push origin branchName
-
-
-create branch -> git branch +name
--> get branch git checkout +name

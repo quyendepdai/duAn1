@@ -7,13 +7,13 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="./asset/images/banner.jpg" class="d-block w-100" style="height: 500px; width: 100%; object-fit: cover;">
+            <img  src="./asset/images/banner.jpg" class="d-block w-100 banner" style="height: 500px; width: 100%; object-fit: cover;">
         </div>
         <div class="carousel-item">
-            <img src="./asset/images/banner1.jpg" class="d-block w-100" alt="Banner 2" style="height: 500px; width: 100%; object-fit: cover;">
+            <img src="./asset/images/banner1.jpg" class="d-block w-100 banner" alt="Banner 2" style="height: 500px; width: 100%; object-fit: cover;">
         </div>
         <div class="carousel-item">
-            <img src="./asset/images/banner2.jpg" class="d-block w-100" alt="Banner 3" style="height: 500px; width: 100%; object-fit: cover;">
+            <img src="./asset/images/banner2.jpg" class="d-block w-100 banner" alt="Banner 3" style="height: 500px; width: 100%; object-fit: cover;">
             
         </div>
     </div>
@@ -29,6 +29,7 @@
 
 <!-- Danh mục HÃNG LAPTOP -->
 <style>
+
 .section-title {
     position: relative;
     margin-bottom: 2rem;
@@ -139,7 +140,7 @@
  </style>
 <section class="category-section container mb-5">
     <h3 class="section-title text-center mb-4">
-        <span class="title-decoration">DANH MỤC HÃNG LAPTOP</span>
+        <span class="title-decoration">DANH MỤC SẢN PHẨM</span>
     </h3>
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -341,7 +342,9 @@
                         </div>
                     </div>
                     <div class="product-details">
-                        <h5 class="product-title"><?= htmlspecialchars($product['Name']); ?></h5>
+                    <a style="text-decoration: none;color:black;hover{color:red}" href="index.php?route=detail_product&id=<?= $product['Product_ID'] ?>">
+                            <h5 class="product-title"><?= htmlspecialchars($product['Name']); ?></h5>
+                        </a>
                         <div class="product-price">
                             <?= number_format($product['Price'], 0, ',', '.'); ?> VND
                         </div>
@@ -368,9 +371,9 @@
                         alt="<?php echo htmlspecialchars($product['Name']); ?>"
                         style="height: 200px; object-fit: cover;">
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <?php echo htmlspecialchars($product['Name']); ?>
-                        </h5>
+                    <a style="text-decoration: none;color:black;hover{color:red}" href="index.php?route=detail_product&id=<?= $product['Product_ID'] ?>">
+                            <h5 class="product-title"><?= htmlspecialchars($product['Name']); ?></h5>
+                        </a>
                         <p class="card-text text-success fw-bold">
                             <?php echo number_format($product['Price'], 0, ',', '.'); ?> VND
                         </p>

@@ -7,14 +7,22 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
+<<<<<<< HEAD
             <img src="./asset/images/banner.jpg" class="d-block w-100 banner" style="height: 500px; width: 100%; object-fit: cover;">
+=======
+            <img  src="./asset/images/banner.jpg" class="d-block w-100 banner" style="height: 500px; width: 100%; object-fit: cover;">
+>>>>>>> 8dcd65692bceb4b7f7744078f3fbce5b4ec85bbe
         </div>
         <div class="carousel-item">
             <img src="./asset/images/banner1.jpg" class="d-block w-100 banner" alt="Banner 2" style="height: 500px; width: 100%; object-fit: cover;">
         </div>
         <div class="carousel-item">
             <img src="./asset/images/banner2.jpg" class="d-block w-100 banner" alt="Banner 3" style="height: 500px; width: 100%; object-fit: cover;">
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 8dcd65692bceb4b7f7744078f3fbce5b4ec85bbe
         </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#mainBanner" data-bs-slide="prev">
@@ -29,10 +37,76 @@
 
 <!-- Danh mục HÃNG LAPTOP -->
 <style>
+<<<<<<< HEAD
     .section-title {
         position: relative;
         margin-bottom: 2rem;
     }
+=======
+
+.section-title {
+    position: relative;
+    margin-bottom: 2rem;
+}
+.title-decoration {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+.title-decoration::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #007bff, #00c6ff);
+}
+/* Category Container */
+.category-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px 0;
+}
+.category-link {
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+.category-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 25px;
+    background: white;
+    border: 2px solid #007bff;
+    border-radius: 50px;
+    color: #007bff;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 123, 255, 0.1);
+}
+.category-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+.category-name {
+    font-size: 1rem;
+}
+.category-button:hover {
+    background: linear-gradient(45deg, #007bff, #00c6ff);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+.category-button:hover .category-icon {
+    transform: rotate(360deg);
+}
+>>>>>>> 8dcd65692bceb4b7f7744078f3fbce5b4ec85bbe
 
     .title-decoration {
         position: relative;
@@ -390,7 +464,11 @@
                         </div>
                     </div>
                     <div class="product-details">
+<<<<<<< HEAD
                         <a style="text-decoration: none;color:black;hover{color:red}" href="index.php?route=detail_product&id=<?= $product['Product_ID'] ?>">
+=======
+                    <a style="text-decoration: none;color:black;hover{color:red}" href="index.php?route=detail_product&id=<?= $product['Product_ID'] ?>">
+>>>>>>> 8dcd65692bceb4b7f7744078f3fbce5b4ec85bbe
                             <h5 class="product-title"><?= htmlspecialchars($product['Name']); ?></h5>
                         </a>
                         <div class="product-price">
@@ -419,10 +497,15 @@
                             alt="<?php echo htmlspecialchars($product['Name']); ?>"
                             style="height: 200px; object-fit: cover;"></a>
                     <div class="card-body d-flex flex-column">
+<<<<<<< HEAD
                         <a style="text-decoration: none;color:black;hover{color:red}" href="index.php?route=detail_product&id=<?= $product['Product_ID'] ?>">
                             <h5 class="card-title">
                                 <?php echo htmlspecialchars($product['Name']); ?>
                             </h5>
+=======
+                    <a style="text-decoration: none;color:black;hover{color:red}" href="index.php?route=detail_product&id=<?= $product['Product_ID'] ?>">
+                            <h5 class="product-title"><?= htmlspecialchars($product['Name']); ?></h5>
+>>>>>>> 8dcd65692bceb4b7f7744078f3fbce5b4ec85bbe
                         </a>
                         <p class="card-text text-success fw-bold">
                             <?php echo number_format($product['Price'], 0, ',', '.'); ?> VND
@@ -462,4 +545,5 @@
             </div>
         </div>
     </div>
+    <div>tét</div>
 </section>

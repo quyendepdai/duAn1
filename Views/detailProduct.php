@@ -26,11 +26,7 @@
     <hr>
 </div>
 
-<?php
-echo ('<pre>');
-print_r($similar_product);
-echo ('</pre>');
-?>
+
 <div class="container mt-4">
     <h3 class="mb-4">Sản phẩm tương tự</h3>
     <div class="row">

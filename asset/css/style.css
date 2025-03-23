@@ -1,0 +1,118 @@
+
+.slogan {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.bg-warning {
+    background-color: #ffcc00 !important;
+}
+
+.text-white {
+    color: #fff !important;
+}
+
+/* Navbar */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: #333;
+    font-weight: 500;
+    margin-right: 15px;
+    font-size: 16px; /* Kích thước chữ lớn hơn */
+}
+.navbar.shadow-scroll {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #ff9900;
+}
+
+/* Logo */
+.navbar-brand img {
+    height: 50px;
+    width: auto;
+}
+
+/* Search Bar */
+.search-input {
+    border-radius: 20px;
+    padding: 5px 15px;
+    min-width: 200px; /* Giảm độ rộng tối thiểu */
+}
+
+.btn-outline-success {
+    border-color: #28a745;
+    color: #28a745;
+    border-radius: 20px;
+    padding: 5px 15px;
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+/* User Links */
+.navbar-nav .nav-item .nav-link {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.navbar-nav .nav-item .nav-link i {
+    margin-right: 5px;
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+    .search-input {
+        min-width: 150px;
+    }
+}
+html, body {
+    height: 100%;
+}
+
+body {
+    padding-top: 0; /* Reset padding vì navbar không còn fixed */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    margin-top: auto;
+}
+#backToTop {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+#backToTop:hover {
+    background-color: #0056b3;
+}
+

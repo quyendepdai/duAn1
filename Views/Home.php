@@ -145,7 +145,10 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="category-container">
-                <?php foreach ($all_category as $category): ?>
+
+                <?php 
+                    
+                foreach ($all_category as $category): ?>
                     <a href="index.php?route=category&category_id=<?= $category['category_id'] ?>" 
                        class="category-link">
                         <div class="category-button">
@@ -325,7 +328,6 @@
         $products_copy = $all_products;
         shuffle($products_copy);
         $featured_products = array_slice($products_copy, 0, 4);
-        
         foreach ($featured_products as $index => $product): 
         ?>
             <div class="col-md-3 mb-4">
@@ -333,22 +335,22 @@
                     <div class="product-badge">Hot</div>
                     <div class="product-image">
                         <img src="./asset/images/<?= htmlspecialchars($product['product_img']); ?>"
-                             alt="<?= htmlspecialchars($product['Name']); ?>">
+                             alt="<?= htmlspecialchars($product['name']); ?>">
                         <div class="product-overlay">
-                            <a href="index.php?route=add_to_cart&id=<?= $product['Product_ID']; ?>"
+                            <a href="index.php?route=add_to_cart&id=<?= $product['product_id']; ?>"
                                class="cart-btn">
                                 <i class="fas fa-shopping-cart"></i>
                             </a>
                         </div>
                     </div>
                     <div class="product-details">
-                    <a style="text-decoration: none;color:black;hover{color:red}" href="index.php?route=detail_product&id=<?= $product['Product_ID'] ?>">
-                            <h5 class="product-title"><?= htmlspecialchars($product['Name']); ?></h5>
+                    <a style="text-decoration: none;color:black;hover{color:red}" href="index.php?route=detail_product&id=<?= $product['product_id'] ?>">
+                            <h5 class="product-title"><?= htmlspecialchars($product['name']); ?></h5>
                         </a>
                         <div class="product-price">
-                            <?= number_format($product['Price'], 0, ',', '.'); ?> VND
+                            <?= number_format($product['price'], 0, ',', '.'); ?> VND
                         </div>
-                        <a href="index.php?route=add_to_cart&id=<?= $product['Product_ID']; ?>"
+                        <a href="index.php?route=add_to_cart&id=<?= $product['product_id']; ?>"
                            class="add-to-cart-btn">
                             <i class="fas fa-shopping-cart me-2"></i>Thêm vào giỏ
                         </a>
@@ -361,26 +363,28 @@
 
 <!-- TẤT CẢ SẢN PHẨM -->
 <main class="container mb-5">
-    <h2 class="text-center mb-4">SẢN PHẨM ĐANG SALE BLACK FIRDAY </h2>
+    <h2 class="text-center mb-4">Danh Sách Sản Phẩm </h2>
     <div class="row">
-        <?php foreach ($all_products as $product): ?>
+        
+        <?php 
+        foreach ($all_products as $product): ?>
             <div class="col-md-3 mb-4">
                 <div class="card h-100 shadow-sm">
                     <img src="./asset/images/<?php echo htmlspecialchars($product['product_img']); ?>"
                         class="card-img-top"
-                        alt="<?php echo htmlspecialchars($product['Name']); ?>"
+                        alt="<?php echo htmlspecialchars($product['name']); ?>"
                         style="height: 200px; object-fit: cover;">
                     <div class="card-body d-flex flex-column">
-                    <a style="text-decoration: none;color:black;hover{color:red}" href="index.php?route=detail_product&id=<?= $product['Product_ID'] ?>">
-                            <h5 class="product-title"><?= htmlspecialchars($product['Name']); ?></h5>
+                    <a style="text-decoration: none;color:black;hover{color:red}" href="index.php?route=detail_product&id=<?= $product['product_id'] ?>">
+                            <h5 class="product-title"><?= htmlspecialchars($product['name']); ?></h5>
                         </a>
                         <p class="card-text text-success fw-bold">
-                            <?php echo number_format($product['Price'], 0, ',', '.'); ?> VND
+                            <?php echo number_format($product['price'], 0, ',', '.'); ?> VND
                         </p>
                         <p class="card-text text-muted small">
-                            <?php echo htmlspecialchars($product['Description']); ?>
+                            <?php echo htmlspecialchars($product['description']); ?>
                         </p>
-                        <a href="index.php?route=add_to_cart&id=<?= $product['Product_ID']; ?>"
+                        <a href="index.php?route=add_to_cart&id=<?= $product['product_id']; ?>"
                             class="btn btn-primary mt-auto">
                             <i class="fas fa-shopping-cart me-2"></i>Thêm vào giỏ
                         </a>
@@ -412,5 +416,4 @@
             </div>
         </div>
     </div>
-    <div>tét</div>
 </section>

@@ -23,6 +23,7 @@
     </div>
 
     <!-- Mô tả chi tiết sản phẩm -->
+    <h5><?= $detail_product['content']; ?></h5>
     <hr>
 </div>
 

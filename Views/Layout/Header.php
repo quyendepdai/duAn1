@@ -2,6 +2,10 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+if (!isset($all_brands) || !is_array($all_brands)) {
+    $all_brands = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +60,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <body>
     <div class="bg-warning py-2 text-center">
-        <span class="fw-bold">Chào mừng bạn đến với WEBlaptop center!!!</span>
+        <span class="fw-bold">Chào mừng bạn đến với TechMart!!!</span>
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
@@ -70,25 +74,28 @@ if (session_status() === PHP_SESSION_NONE) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link fw-bold" href="index.php">Trang chủ</a>
+                        <a class="nav-link fw-bold" href="index.php">Home</a>
                     </li>
-                    <?php foreach ($all_category as $c): ?>
+                    <?php 
+                        $first_four = isset($all_brands) && is_array($all_brands) ? array_slice($all_brands, 0, 6) : []; 
+                        foreach ($first_four as $c): ?>
                         <li class="nav-item">
-                            <a class="nav-link fw-bold" href="index.php?route=category&category_id=<?= $c['category_id'] ?>">
-                                <?= htmlspecialchars($c['Name']) ?>
+                            <!-- index.php?route=category&category_id=<?= $category['category_id'] ?> -->
+                            <a class="nav-link fw-bold" href="index.php?route=brand&brand_id=<?= $c['brand_id'] ?>">
+                                <?= htmlspecialchars($c['brand_name']) ?>
                             </a>
                         </li>
                     <?php endforeach; ?>
                     <li class="nav-item">
-                        <a class="nav-link fw-bold" href="index.php?route=contact">Liên hệ</a>
+                        <a class="nav-link fw-bold" href="index.php?route=contact">Contact</a>
                     </li>
                 </ul>
 
                 <form class="search-form d-flex me-3" action="index.php" method="GET">
                     <input type="hidden" name="route" value="search">
                     <input class="form-control me-2" type="search" name="query"
-                        placeholder="Tìm kiếm món ăn..." required>
-                    <button class="btn btn-success" type="submit">
+                        placeholder="Tìm kiếm sản phẩm" required>
+                    <button class="btn btn-outline-primary" type="submit">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
@@ -96,11 +103,11 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="user-actions d-flex align-items-center">
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <span class="me-3 text-nowrap">Xin chào,
-                            <a href=".\Views\Admin\dashboard.php"><button class="btn btn-success"><strong><?php echo htmlspecialchars($_SESSION['username'] ?? 'Người dùng'); ?></strong></button></a>
+                            <a href="index.php?route=admin/products"><button class="btn btn-outline-primary"><strong><?php echo htmlspecialchars($_SESSION['username'] ?? 'Người dùng'); ?></strong></button></a>
                         </span>
                         <a href="index.php?route=logout" class="btn btn-outline-danger me-2">Đăng xuất</a>
                     <?php else: ?>
-                        <a href="index.php?route=login" class="btn btn-outline-dark me-2">Đăng nhập</a>
+                        <a href="index.php?route=login" class="btn btn-outline-primary me-2">Đăng nhập</a>
                     <?php endif; ?>
 
                     <a href="index.php?route=cart" class="btn btn-primary">

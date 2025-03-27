@@ -12,6 +12,9 @@
     color: #fff !important;
 }
 
+img:not(.banner) {
+    object-fit: contain !important;
+}
 /* Navbar */
 .navbar {
     position: sticky;

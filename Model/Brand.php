@@ -1,10 +1,10 @@
-<<<<<<< HEAD
 <?php
 class Brand
 {
     // Phương thức cho CategoryController
-    public function getAllBrand()
+    public function getAll()
     {
+
         include('Connect.php');
         $sql = 'SELECT * FROM brands';
         $stmt = $conn->prepare($sql);

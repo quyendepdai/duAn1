@@ -80,7 +80,6 @@ if (!isset($all_brands) || !is_array($all_brands)) {
                         $first_four = isset($all_brands) && is_array($all_brands) ? array_slice($all_brands, 0, 6) : []; 
                         foreach ($first_four as $c): ?>
                         <li class="nav-item">
-                            <!-- index.php?route=category&category_id=<?= $category['category_id'] ?> -->
                             <a class="nav-link fw-bold" href="index.php?route=brand&brand_id=<?= $c['brand_id'] ?>">
                                 <?= htmlspecialchars($c['brand_name']) ?>
                             </a>
@@ -110,10 +109,10 @@ if (!isset($all_brands) || !is_array($all_brands)) {
                         <a href="index.php?route=login" class="btn btn-outline-primary me-2">Đăng nhập</a>
                     <?php endif; ?>
 
-                    <a href="index.php?route=cart" class="btn btn-primary">
+                    <a href="<?= isset($_SESSION['user_id']) ? 'index.php?route=cart' : 'index.php?route=login' ?>" class="btn btn-primary">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="ms-1">
-                            (<?= isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'], 'quantity')) : 0; ?>)
+                            <?= isset($countCartByUser) ? '('.$countCartByUser.')'  : null ; ?>
                         </span>
                     </a>
                 </div>

@@ -22,7 +22,8 @@
                             href="index.php?route=admin/categories">Quản lý danh mục</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Quản lý đơn hàng</a>
+                        <a class="nav-link <?= $route == 'admin/orders' ? 'active' : '' ?>"
+                        href="index.php?route=admin/orders">Quản lý đơn hàng</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="index.php?route=admin/coupons">Quản lý mã giảm giá</a>
@@ -37,6 +38,7 @@
     </nav>
 
     <div class="container mt-4">
+         
         <?php if (isset($_SESSION['success'])): ?>
             <div class="alert alert-success">
                 <?= $_SESSION['success'] ?>
@@ -53,10 +55,40 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Danh sách sản phẩm</h2>
-            <a href="index.php?route=admin/products/products/add" class="btn btn-primary">
+            <a href="index.php?route=admin/products/add" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Thêm sản phẩm
             </a>
         </div>
+
+        <form method="GET" class="row g-3 mb-3">
+    <input type="hidden" name="route" value="admin/products">
+
+    <div class="col-md-3">
+        <label class="form-label">Lọc theo chữ cái</label>
+        <select name="letter" class="form-select">
+            <option value="">Tất cả</option>
+            <?php foreach (range('A', 'Z') as $char): ?>
+                <option value="<?= $char ?>" <?= ($_GET['letter'] ?? '') == $char ? 'selected' : '' ?>><?= $char ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">Khoảng giá</label>
+        <select name="price_range" class="form-select">
+            <option value="">Tất cả</option>
+            <option value="1" <?= ($_GET['price_range'] ?? '') == '1' ? 'selected' : '' ?>>Dưới 5 triệu</option>
+            <option value="2" <?= ($_GET['price_range'] ?? '') == '2' ? 'selected' : '' ?>>5 - 10 triệu</option>
+            <option value="3" <?= ($_GET['price_range'] ?? '') == '3' ? 'selected' : '' ?>>10 - 20 triệu</option>
+            <option value="4" <?= ($_GET['price_range'] ?? '') == '4' ? 'selected' : '' ?>>Trên 20 triệu</option>
+        </select>
+    </div>
+
+    <div class="col-md-2 d-flex align-items-end">
+        <button class="btn btn-primary w-100">Lọc</button>
+    </div>
+</form>
+
 
         <div class="table-responsive">
             <table class="table table-striped">
@@ -105,7 +137,8 @@
         </div>
 
         <!-- PHÂN TRANG -->
-<?php if ($total_pages > 1): ?>
+<?php 
+if ($total_pages > 1): ?>
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mt-4">
             <!-- Nút Previous -->

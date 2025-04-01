@@ -1,8 +1,8 @@
 <?php
-//Khởi tạo session
 session_start();
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-//Nhúng các file controller 
+// Nhúng các controller
 require_once './Controller/HomeController.php';
 require_once './Controller/CategoryController.php';
 require_once './Controller/CartController.php';
@@ -15,89 +15,82 @@ require_once './Controller/BrandController.php';
 require_once './Controller/DetailController.php';
 require_once './Controller/registerController.php';
 
-//Kiểm tra xem có tham số route không
-$route = isset($_GET['route']) ? $_GET['route'] : '';
+$route = $_GET['route'] ?? '';
+
 switch ($route) {
+    // Trang người dùng
     case 'category':
-        $category = new CategoryController;
-        $category->Category();
+        (new CategoryController)->Category();
         break;
     case 'brand':
-        $brand = new BrandController;
-        $brand->Brand();
-            break;
-    case 'admin/categories':
-        $controller = new CategoryController();
-        $controller->listCategories();
-        break;
-    case 'admin/categories/add':
-        $controller = new CategoryController();
-        $controller->addCategory();
-        break;
-    case 'admin/categories/edit':
-        $controller = new CategoryController();
-        $controller->editCategory();
-        break;
-    case 'admin/categories/delete':
-        $controller = new CategoryController();
-        $controller->deleteCategory();
+        (new BrandController)->Brand();
         break;
     case 'cart':
-        $cart = new CartController;
-        $cart->Cart();
+        (new CartController)->Cart();
+        break;
+    case 'order':
+        (new CartController)->Order();
         break;
     case 'add_to_cart':
-        $cart = new CartController;
-        $cart->AddToCart();
+        (new CartController)->AddToCart();
         break;
     case 'remove_from_cart':
-        $cart = new CartController;
-        $cart->RemoveFromCart();
+        (new CartController)->RemoveFromCart();
         break;
-    case 'login':
-        $controller = new LoginController();
-        $controller->login();
-        break;
-    case 'logout':
-        $controller = new LogoutController();
-        $controller->logout();
-        break;
-    case 'admin/products':
-        $controller = new AdminController();
-        $controller->listProducts();
-        break;
-    case 'admin/products/add':
-        $controller = new AdminController();
-        $controller->addProduct();
-        break;
-    case 'admin/products/edit':
-        $controller = new AdminController();
-        $controller->editProduct();
-        break;
-    case 'admin/products/delete':
-        $controller = new AdminController();
-        $controller->deleteProduct();
-        break;
-    case 'detail_product':
-        $detail = new DetailController;
-        $detail->Detail();
-        break;
-    case 'contact':
-        $controller = new ContactController();
-        $controller->index();
-        break;
-    case 'search':
-        $controller = new SearchController();
-        $controller->search();
+    case 'add_new_order':
+        (new CartController)->addNewOrder();
         break;
     case 'apply_coupon':
-        $controller = new CartController();
-        $controller->applyCoupon();
+        (new CartController)->applyCoupon();
         break;
-    case 'clear_cart':
-        $controller = new CartController();
-        $controller->clearCart();
+    case 'detail_product':
+        (new DetailController)->Detail();
         break;
+    case 'contact':
+        (new ContactController)->index();
+        break;
+    case 'search':
+        (new SearchController)->search();
+        break;
+    case 'login':
+        (new LoginController)->login();
+        break;
+    case 'logout':
+        (new LogoutController)->logout();
+        break;
+    case 'register':
+        (new RegisterController)->register();
+        break;
+
+    // Quản lý sản phẩm (admin)
+    case 'admin/products':
+        (new AdminController)->listProducts();
+        break;
+    case 'admin/products/add':
+        (new AdminController)->addProduct();
+        break;
+    case 'admin/products/edit':
+        (new AdminController)->editProduct();
+        break;
+    case 'admin/products/delete':
+        (new AdminController)->deleteProduct();
+        break;
+
+    // Quản lý danh mục
+    case 'admin/categories':
+        (new CategoryController)->listCategories();
+        break;
+    case 'admin/categories/add':
+        (new CategoryController)->addCategory();
+        break;
+    case 'admin/categories/edit':
+        (new CategoryController)->editCategory();
+        break;
+    case 'admin/categories/delete':
+        (new CategoryController)->deleteCategory();
+        break;
+
+    // Quản lý mã giảm giá
     case 'admin/coupons':
         require_once './Model/Coupon.php';
         $couponModel = new Coupon();
@@ -106,8 +99,7 @@ switch ($route) {
         break;
 
     case 'admin/addCoupon':
-        $controller = new AdminController();
-        $controller->addCoupon();
+        (new AdminController)->addCoupon();
         break;
 
     case 'admin/update_coupon':
@@ -137,19 +129,28 @@ switch ($route) {
         } catch (Exception $e) {
             $_SESSION['error'] = "Có lỗi xảy ra: " . $e->getMessage();
         }
-
         header('Location: index.php?route=admin/coupons');
         exit();
+
+    // Quản lý đơn hàng
+    case 'admin/orders':
+        $controller = new AdminController();
+        $controller->orderList(); 
         break;
+    
+    case 'admin/orderDetail':
+        (new AdminController)->orderDetail();
+        break;
+    case 'admin/updateOrderStatus':
+        (new AdminController)->updateOrderStatus();
+        break;
+    case 'admin/deleteOrder':
+        (new AdminController())->deleteOrder();
+        break;
+    
 
-        case 'register':
-            $registerController = new RegisterController();
-            $registerController->register();
-            break;
-
-
+    // Trang mặc định
     default:
-        $home = new HomeController;
-        $home->Home();
+        (new HomeController)->Home();
         break;
 }

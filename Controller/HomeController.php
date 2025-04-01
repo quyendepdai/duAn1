@@ -7,22 +7,11 @@ class HomeController
         require_once './Model/Category.php';
         require_once './Model/Brand.php';
 
-        require_once './Model/Cart.php';
-
-        if(isset($_SESSION['user_id'])){
-            $user_id = $_SESSION['user_id'];
-            $cartModel = new Cart();
-            $countCartByUser = $cartModel->countByUserId($user_id);
-        }
-        
-
-       
-
         $category_model = new Category();
         $all_category = $category_model->getAllCategory();
 
         $brand_model = new Brand();
-        $all_brands = $brand_model->getAll();
+        $all_brands = $brand_model->getAllBrand();
 
         $product_model = new Product();
         $all_products = $product_model->getAllProduct();

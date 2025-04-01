@@ -54,17 +54,6 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="brand_id" class="form-label">Thương Hiệu</label>
-                <select class="form-control" id="brand_id" name="brand_id" required>
-                    <?php foreach ($all_brand as $brand): ?>
-                        <option value="<?= $brand['brand_id'] ?>"
-                            <?= ($brand['brand_id'] == $product['brand_id']) ? 'selected' : '' ?>>
-                            <?= $brand['brand_name'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="mb-3">
                 <label for="product_img" class="form-label">Hình ảnh hiện tại</label>
                 <img src="./asset/images/<?= $product['product_img'] ?>" alt="Current Image" style="width: 100px; height: 100px; object-fit: cover; display: block; margin-bottom: 10px;">
                 <input type="file" class="form-control" id="product_img" name="product_img">

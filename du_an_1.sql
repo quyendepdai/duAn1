@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 30, 2025 at 08:14 AM
+-- Generation Time: Mar 23, 2025 at 03:49 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -63,13 +63,6 @@ CREATE TABLE `cart` (
   `added_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`cart_id`, `user_id`, `product_id`, `quantity`, `added_at`) VALUES
-(11, 4, 18, 2, '2025-03-28 23:10:39');
-
 -- --------------------------------------------------------
 
 --
@@ -122,6 +115,22 @@ INSERT INTO `coupon` (`Coupon_id`, `Code`, `Discount_Amount`, `Expiration_Date`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `coupon_id` int NOT NULL,
+  `coupon_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `discount_type` enum('percentage','fixed') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `discount_value` decimal(10,2) NOT NULL,
+  `min_order_value` decimal(10,2) DEFAULT NULL,
+  `usage_limit` int DEFAULT '1',
+  `expires_at` timestamp NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `discounts`
 --
 
@@ -156,9 +165,9 @@ CREATE TABLE `inventory` (
 CREATE TABLE `order` (
   `Order_id` int NOT NULL,
   `User_id` int DEFAULT NULL,
-  `Date` datetime DEFAULT NULL,
-  `Total_order` bigint DEFAULT NULL,
-  `Status` enum('Pending','Shipped','Delivered','Cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Pending',
+  `Date` date DEFAULT NULL,
+  `Total_order` decimal(10,2) DEFAULT NULL,
+  `Status` enum('Pending','Shipped','Delivered','Cancelled') DEFAULT NULL,
   `coupon_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -167,7 +176,9 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`Order_id`, `User_id`, `Date`, `Total_order`, `Status`, `coupon_id`) VALUES
-(6, 1, '2025-03-30 07:36:23', 109490000, 'Pending', NULL);
+(1, 1, '2023-05-01', '50000.00', 'Pending', 1),
+(2, 2, '2023-05-02', '30000.00', 'Shipped', 2),
+(3, 3, '2023-05-03', '30000.00', 'Delivered', 3);
 
 -- --------------------------------------------------------
 
@@ -188,9 +199,8 @@ CREATE TABLE `order_detail` (
 --
 
 INSERT INTO `order_detail` (`ID`, `Order_id`, `Product_ID`, `Quantity`, `Price`) VALUES
-(15, 6, 2, 1, '15500000.00'),
-(16, 6, 10, 1, '39990000.00'),
-(17, 6, 18, 2, '27000000.00');
+(2, 1, 2, 1, '20000.00'),
+(3, 2, 3, 3, '30000.00');
 
 -- --------------------------------------------------------
 
@@ -201,18 +211,11 @@ INSERT INTO `order_detail` (`ID`, `Order_id`, `Product_ID`, `Quantity`, `Price`)
 CREATE TABLE `payments` (
   `payment_id` int NOT NULL,
   `order_id` int NOT NULL,
-  `payment_method` enum('credit_card','paypal','bank_transfer','cash_on_delivery') NOT NULL,
-  `payment_status` enum('pending','completed','failed') DEFAULT 'pending',
-  `transaction_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT 'xxxxxxxxx',
+  `payment_method` enum('credit_card','paypal','bank_transfer','cash_on_delivery') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `payment_status` enum('pending','completed','failed') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'pending',
+  `transaction_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `payment_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `payments`
---
-
-INSERT INTO `payments` (`payment_id`, `order_id`, `payment_method`, `payment_status`, `transaction_id`, `payment_date`) VALUES
-(6, 6, 'cash_on_delivery', 'pending', 'xxxxxxxxx', '2025-03-30 07:36:23');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -278,19 +281,9 @@ CREATE TABLE `shipping` (
   `order_id` int NOT NULL,
   `shipping_address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `shipping_status` enum('processing','shipped','delivered','failed') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'processing',
-  `estimated_delivery` datetime DEFAULT NULL,
-  `tracking_number` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phone` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `customer_name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `note` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL
+  `estimated_delivery` date DEFAULT NULL,
+  `tracking_number` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `shipping`
---
-
-INSERT INTO `shipping` (`shipping_id`, `order_id`, `shipping_address`, `shipping_status`, `estimated_delivery`, `tracking_number`, `phone`, `customer_name`, `note`) VALUES
-(4, 6, 'asdasdasd', 'processing', NULL, NULL, '0912312341', 'new order 2', 'adasasdad');
 
 -- --------------------------------------------------------
 
@@ -316,8 +309,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`User_id`, `Username`, `Password`, `Name`, `Email`, `Phone`, `Address`, `Role`) VALUES
 (1, 'user', 'user123', 'Nguyễn Văn A', 'nguyenvana@email.com', '0987654321', '123 Đường ABC, TP.HCM', 'user'),
 (2, 'admin', 'admin123', 'Trần Văn B', 'tranvanb@email.com', '0123456789', '456 Đường XYZ, Hà Nội', 'admin'),
-(3, 'ledainhoc', '159753', 'Lê Đại Học', 'ledainhoc@email.com', '0852147963', '789 Đường PQR, Đà Nẵng', 'user'),
-(4, 'newuser', '123456', 'name', 'newuser@gmail.com', '09234241223', 'ha noi', 'user');
+(3, 'ledainhoc', '159753', 'Lê Đại Học', 'ledainhoc@email.com', '0852147963', '789 Đường PQR, Đà Nẵng', 'user');
 
 -- --------------------------------------------------------
 
@@ -364,6 +356,13 @@ ALTER TABLE `coupon`
   ADD PRIMARY KEY (`Coupon_id`);
 
 --
+-- Indexes for table `coupons`
+--
+ALTER TABLE `coupons`
+  ADD PRIMARY KEY (`coupon_id`),
+  ADD UNIQUE KEY `coupon_code` (`coupon_code`);
+
+--
 -- Indexes for table `discounts`
 --
 ALTER TABLE `discounts`
@@ -397,6 +396,7 @@ ALTER TABLE `order_detail`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`payment_id`),
+  ADD UNIQUE KEY `transaction_id` (`transaction_id`),
   ADD KEY `order_id` (`order_id`);
 
 --
@@ -451,7 +451,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `cart_id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `coupons`
+--
+ALTER TABLE `coupons`
+  MODIFY `coupon_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `discounts`
@@ -469,13 +475,13 @@ ALTER TABLE `inventory`
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `payment_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -487,7 +493,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `shipping`
 --
 ALTER TABLE `shipping`
-  MODIFY `shipping_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `shipping_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `wishlist`

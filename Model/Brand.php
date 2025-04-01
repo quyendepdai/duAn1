@@ -3,9 +3,8 @@
 class Brand
 {
     // Phương thức cho CategoryController
-    public function getAll()
+    public function getAllBrand()
     {
-
         include('Connect.php');
         $sql = 'SELECT * FROM brands';
         $stmt = $conn->prepare($sql);
@@ -28,9 +27,8 @@ class Brand
 class Brand
 {
     // Phương thức cho CategoryController
-    public function getAll()
+    public function getAllBrand()
     {
-
         include('Connect.php');
         $sql = 'SELECT * FROM brands';
         $stmt = $conn->prepare($sql);
@@ -48,5 +46,5 @@ class Brand
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
->>>>>>> 0f2bade4f53106d3f430dff2752e5d17e8530e81
+>>>>>>> 8bb1d22542e001b6d5b4fb09cfa411fb3f5e6bdc
 }

@@ -9,27 +9,21 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
+            <a class="navbar-brand" href="index.php?route=admin/products">Trang Quản Lý Sản Phẩm</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?route=admin/products">Quản lý sản phẩm</a>
+                        <a class="nav-link active" href="index.php?route=admin/products">Quản lý sản phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.php?route=admin/categories">Quản lý danh mục</a>
+                        <a class="nav-link" href="#">Quản lý đơn hàng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Quản lý đơn hàng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php?route=admin/coupons">Quản lý mã giảm giá</a>
+                        <a class="nav-link" href="#">Quản lý mã giảm giá</a>
                     </li>
                 </ul>
-                <div class="d-flex">
-                    <a href="index.php?route=logout" class="btn btn-outline-light me-2">Đăng xuất</a>
-                    <a href="index.php" class="btn btn-outline-light">Trang chủ</a>
-                </div>
             </div>
         </div>
     </nav>
@@ -54,14 +48,6 @@
                 <select class="form-control" id="category_id" name="category_id" required>
                     <?php foreach ($all_category as $category): ?>
                         <option value="<?= $category['category_id'] ?>"><?= $category['Name'] ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="brand_id" class="form-label">Thương Hiệu</label>
-                <select class="form-control" id="brand_id" name="brand_id" required>
-                    <?php foreach ($all_brand as $brand): ?>
-                        <option value="<?= $brand['brand_id'] ?>"><?= $brand['brand_name'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

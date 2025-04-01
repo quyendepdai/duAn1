@@ -23,12 +23,13 @@
     </div>
 
     <!-- Mô tả chi tiết sản phẩm -->
+    <h5><?= $detail_product['content']; ?></h5>
     <hr>
 </div>
 
 
 <div class="container mt-4">
-    <h3 class="mb-4">Sản phẩm tương tự</h3> 
+    <h3 class="mb-4">Sản phẩm tương tự</h3>
     <div class="row">
         <?php $count = 0; ?>
         <?php foreach ($similar_product as $row) { ?>
@@ -36,15 +37,11 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <img src="./asset/images/<?= $row['product_img'] ?>" class="card-img-top" alt="">
-                        <a style="text-decoration: none;color:black;hover{color:red}" href="index.php?route=detail_product&id=<?php echo $row['Product_ID']?>">
-                            <h5 class="product-title"><?php echo htmlspecialchars($row['Name']);?></h5>
-                            </a>
+                        <h5 class="card-title"><?= $row["Name"]; ?></h5>
                         <div class="product-price">
                             <?= number_format($row['Price'], 0, ',', '.'); ?> VND
                         </div>
-                         <a href="index.php?route=add_to_cart&id=<?= $detail_product['Product_ID']; ?>" class="btn btn-primary mt-3">
-                            <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
-                        </a>
+                        <a href="#" class="btn btn-primary">Xem chi tiết</a>
                     </div>
                 </div>
             </div>

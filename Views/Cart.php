@@ -2,7 +2,9 @@
 require_once './Model/Coupon.php';
 require_once './Controller/CartController.php';
 
- $subtotal = 0;
+// Khởi tạo biến tổng tiền
+$subtotal = 0;
+$cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 
 // Lấy danh sách mã giảm giá
 $couponModel = new Coupon();
@@ -11,19 +13,8 @@ $available_coupons = $couponModel->getAllValidCoupons();
 
 <div class="container my-5">
     <h2 class="text-center mb-4">Giỏ hàng của bạn</h2>
-      <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success">
-                <?= $_SESSION['success'] ?>
-                <?php unset($_SESSION['success']); ?>
-            </div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger">
-                <?= $_SESSION['error'] ?>
-                <?php unset($_SESSION['error']); ?>
-         </div>
-        <?php endif; ?>
-    <?php if (empty($carts)): ?>
+    
+    <?php if (empty($cart)): ?>
         <div class="text-center py-5">
             <h4 class="text-muted mb-4">Giỏ hàng của bạn đang trống</h4>
             <a href="index.php" class="btn btn-primary btn-lg">Tiếp tục mua sắm</a>
@@ -33,30 +24,24 @@ $available_coupons = $couponModel->getAllValidCoupons();
             <!-- Phần hiển thị sản phẩm -->
             <div class="col-lg-8 mb-4">
                 <div class="table-responsive">
-                    <table class="table table-hover text-center">
+                    <table class="table table-hover">
                         <thead class="table-light">
                             <tr>
                                 <th>Sản phẩm</th>
                                 <th>Giá</th>
-                                <th style="width: 100px;">Số lượng</th>
-                                <th style="width: 150px;">Thành tiền</th>
+                                <th>Số lượng</th>
+                                <th class="text-end">Thành tiền</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                                // echo('<pre>');
-                                // print_r($carts);
-                                // echo('</pre>');
-
-                               
-                                foreach ($carts as $key => $cart): 
-                                    $name = $cart['name'] ?? 'Không có tên';
-                                    $price = (float)($cart['price'] ?? 0);
-                                    $quantity = (int)($cart['quantity'] ?? 0);
-                                    $image = $cart['product_img'] ?? 'default.jpg';
-                                    $item_total = $price * $quantity;
-                                    $subtotal += $item_total;
+                            <?php foreach ($cart as $product_id => $product): 
+                                $name = $product['name'] ?? 'Không có tên';
+                                $price = (float)($product['price'] ?? 0);
+                                $quantity = (int)($product['quantity'] ?? 0);
+                                $image = $product['img'] ?? 'default.jpg';
+                                $item_total = $price * $quantity;
+                                $subtotal += $item_total;
                             ?>
                                 <tr>
                                     <td>
@@ -76,7 +61,7 @@ $available_coupons = $couponModel->getAllValidCoupons();
                                     </td>
                                     <td class="text-end"><?= number_format($item_total, 0, ',', '.') ?> VND</td>
                                     <td>
-                                        <button onclick="removeItem(<?= $cart['product_id'] ?>)" 
+                                        <button onclick="removeItem(<?= $product_id ?>)" 
                                                 class="btn btn-link text-danger">
                                             <i class="fas fa-trash"></i>
                                         </button>
@@ -135,7 +120,7 @@ $available_coupons = $couponModel->getAllValidCoupons();
 
                         <!-- Nút thanh toán -->
                         <div class="mt-4">
-                            <button  type="button" class="btn btn-primary w-100 mb-2" onclick="showCheckoutModal()">
+                            <button type="button" class="btn btn-primary w-100 mb-2" onclick="showCheckoutModal()">
                                 Thanh toán ngay
                             </button>
                             <a href="index.php" class="btn btn-outline-secondary w-100">
@@ -158,16 +143,16 @@ $available_coupons = $couponModel->getAllValidCoupons();
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form action="index.php?route=add_new_order" id="checkoutForm" method="post" >
+                <form id="checkoutForm">
                     <!-- Thông tin khách hàng -->
                     <div class="row mb-4">
                         <div class="col-md-6 mb-3">
-                            <label for="name" class="form-label">Họ và tên <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <label for="fullName" class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="fullName" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="phone" class="form-label">Số điện thoại <span class="text-danger">*</span></label>
-                            <input type="tel" class="form-control" id="phone" name="phone" required>
+                            <input type="tel" class="form-control" id="phone" required>
                         </div>
                     </div>
 
@@ -175,23 +160,36 @@ $available_coupons = $couponModel->getAllValidCoupons();
                     <div class="mb-4">
                         <h6 class="mb-3">Địa chỉ giao hàng</h6>
                         <div class="row">
-                            <div class="col mb-3">
-                               <input type="text" class="form-control" id="address" name="address" required>
+                            <div class="col-md-4 mb-3">
+                                <label for="province" class="form-label">Tỉnh/Thành phố <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="province" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="district" class="form-label">Quận/Huyện <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="district" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="ward" class="form-label">Phường/Xã <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="ward" required>
                             </div>
                         </div>
-                       
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Địa chỉ cụ thể <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="address" required>
+                        </div>
                     </div>
+
                     <!-- Phương thức thanh toán -->
                     <div class="mb-4">
                         <h6 class="mb-3">Phương thức thanh toán</h6>
                         <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="cash_on_delivery" checked>
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="cod" checked>
                             <label class="form-check-label" for="cod">
                                 Thanh toán khi nhận hàng (COD)
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="banking" value="bank_transfer">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="banking" value="banking">
                             <label class="form-check-label" for="banking">
                                 Chuyển khoản ngân hàng
                             </label>
@@ -201,15 +199,13 @@ $available_coupons = $couponModel->getAllValidCoupons();
                     <!-- Ghi chú -->
                     <div class="mb-3">
                         <label for="note" class="form-label">Ghi chú</label>
-                        <textarea class="form-control" id="note" name="note" rows="3"></textarea>
-                    </div>
-
-                    <input type="hidden" id="totalMoney" name="totalMoney" value="<?=  $subtotal ?>">
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" class="btn btn-primary" >Xác nhận đặt hàng</button>
+                        <textarea class="form-control" id="note" rows="3"></textarea>
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="submitOrder()">Xác nhận đặt hàng</button>
             </div>
         </div>
     </div>
@@ -221,19 +217,7 @@ $available_coupons = $couponModel->getAllValidCoupons();
 function showCheckoutModal() {
     const checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
     checkoutModal.show();
-    
 }
-
-// function submitOrder(event) {
-//     event.preventDefault();
-//     const name = document.getElementById('name').value;
-//     const phone = document.getElementById('phone').value;
-//     const address = document.getElementById('address').value;
-//     const paymentMethod = document.querySelector('input[type="radio"]:checked').value;
-//     if(!name || !phone || !address) return alert("Vui lòng điền đầy đủ các thông tin");
-
-//      window.location.href = `index.php?route=add_new_order`;
-// }
 
 function removeItem(productId) {
     Swal.fire({
@@ -252,5 +236,16 @@ function removeItem(productId) {
     });
 }
 
-
+function submitOrder() {
+    Swal.fire({
+        title: 'Đặt hàng thành công!',
+        text: 'Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ liên hệ với bạn sớm nhất!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = 'index.php?route=clear_cart';
+        }
+    });
+}
 </script>

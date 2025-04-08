@@ -1,6 +1,7 @@
 <?php
 //Khởi tạo session
 session_start();
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 //Nhúng các file controller 
 require_once './Controller/HomeController.php';
@@ -14,6 +15,7 @@ require_once './Controller/SearchController.php';
 require_once './Controller/BrandController.php';
 require_once './Controller/DetailController.php';
 require_once './Controller/registerController.php';
+require_once './Controller/UserAdminController.php';
 
 //Kiểm tra xem có tham số route không
 $route = isset($_GET['route']) ? $_GET['route'] : '';
@@ -46,13 +48,21 @@ switch ($route) {
         $cart = new CartController;
         $cart->Cart();
         break;
+    case 'order':
+        $cart = new CartController;
+        $cart->Order();
+        break;   
     case 'add_to_cart':
         $cart = new CartController;
-        $cart->AddToCart();
+        $cart->addToCart();
         break;
     case 'remove_from_cart':
         $cart = new CartController;
-        $cart->RemoveFromCart();
+        $cart->removeFromCart();
+        break;
+     case 'add_new_order':
+        $cart = new CartController;
+        $cart->addNewOrder();
         break;
     case 'login':
         $controller = new LoginController();
@@ -61,6 +71,14 @@ switch ($route) {
     case 'logout':
         $controller = new LogoutController();
         $controller->logout();
+        break;
+    case 'admin/orders': 
+         $controller = new AdminController();
+         $controller->getAllOrders();
+        break;
+    case 'admin/updateOrderStatus': 
+         $controller = new AdminController();
+         $controller->updateOrderStatus();
         break;
     case 'admin/products':
         $controller = new AdminController();
@@ -94,10 +112,6 @@ switch ($route) {
         $controller = new CartController();
         $controller->applyCoupon();
         break;
-    case 'clear_cart':
-        $controller = new CartController();
-        $controller->clearCart();
-        break;
     case 'admin/coupons':
         require_once './Model/Coupon.php';
         $couponModel = new Coupon();
@@ -110,44 +124,35 @@ switch ($route) {
         $controller->addCoupon();
         break;
 
-    case 'admin/update_coupon':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            require_once './Model/Coupon.php';
-            $couponModel = new Coupon();
-            $id = $_POST['id'];
-            $code = $_POST['code'];
-            $discount = $_POST['discount'];
-            $expiry = $_POST['expiry'];
-            if ($couponModel->updateCoupon($id, $code, $discount, $expiry)) {
-                header('Location: index.php?route=admin/coupons');
-            }
-        }
-        break;
-
     case 'admin/delete_coupon':
-        require_once './Model/Coupon.php';
-        $couponModel = new Coupon();
-        $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-        try {
-            if ($id > 0 && $couponModel->deleteCoupon($id)) {
-                $_SESSION['success'] = "Xóa mã giảm giá thành công!";
-            } else {
-                $_SESSION['error'] = "Xóa mã giảm giá thất bại!";
-            }
-        } catch (Exception $e) {
-            $_SESSION['error'] = "Có lỗi xảy ra: " . $e->getMessage();
-        }
-
-        header('Location: index.php?route=admin/coupons');
-        exit();
+        $controller = new AdminController();
+        $controller->deleteCounpons();
         break;
 
-        case 'register':
+    case 'admin/update_coupon':
+        $controller = new AdminController();
+        $controller->updateCounpon();
+        break;
+
+    case 'register':
             $registerController = new RegisterController();
             $registerController->register();
             break;
+    case 'admin/useradmin':
+            $userAdmin = new UserAdminController();
+            $userAdmin->getAllUsers();
+            break;
 
-
+        case 'admin/delete_user':
+            $userAdmin = new UserAdminController();
+            $userAdmin->delete();
+            break;
+        
+        case 'admin/change_role':
+            $controller = new UserAdminController();
+            $controller->changeRole();
+            break;
+      
     default:
         $home = new HomeController;
         $home->Home();

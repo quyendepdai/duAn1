@@ -28,7 +28,7 @@ class HomeController
 
 
 
-        // print_r($all_category);
+        // print_r($all_category)
         include('./Views/Layout/Header.php');
         include('./Views/Home.php');
         include('./Views/Layout/Footer.php');

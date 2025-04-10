@@ -1,5 +1,5 @@
 <?php
-require_once './Model/Brand.php';
+include_once './Model/Brand.php';
 
 class ContactController
 {

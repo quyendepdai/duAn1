@@ -14,10 +14,10 @@ class CategoryController
 
     // Phương thức cho trang danh mục thông thường
     public function Category()
-    {   
-         require_once './Model/Cart.php';
+    {
+        require_once './Model/Cart.php';
 
-        if(isset($_SESSION['user_id'])){
+        if (isset($_SESSION['user_id'])) {
             $user_id = $_SESSION['user_id'];
             $cartModel = new Cart();
             $countCartByUser = $cartModel->countByUserId($user_id);
@@ -40,9 +40,9 @@ class CategoryController
             $all_products = $product_model->getProductFromCategory($id);
         }
 
-        include('./Views/Layout/Header.php');
-        include('./Views/Category.php');
-        include('./Views/Layout/Footer.php');
+        require_once('./Views/Layout/Header.php');
+        require_once('./Views/Category.php');
+        require_once('./Views/Layout/Footer.php');
     }
 
     // Phương thức cho trang quản lý danh mục

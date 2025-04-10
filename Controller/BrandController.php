@@ -11,8 +11,6 @@ class BrandController
         $this->brandModel = new Brand();
     }
    
-
-    // Phương thức cho trang danh mục thông thường
     public function Brand()
     {
          require_once './Model/Cart.php';

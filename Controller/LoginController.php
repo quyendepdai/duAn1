@@ -8,6 +8,7 @@ class LoginController
     public function __construct()
     {
         $this->userModel = new UserModel();
+        
     }
 
     public function login()

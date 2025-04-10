@@ -1,5 +1,5 @@
 <?php
-include_once './Model/Product.php';
+include './Model/Product.php';
 include_once './Model/Brand.php';
 
 class DetailController

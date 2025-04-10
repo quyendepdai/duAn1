@@ -5,7 +5,7 @@ class ContactController
 {
     public function index()
     {
-         require_once './Model/Cart.php';
+         include_once './Model/Cart.php';
 
         if(isset($_SESSION['user_id'])){
             $user_id = $_SESSION['user_id'];

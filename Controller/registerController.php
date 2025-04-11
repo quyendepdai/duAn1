@@ -18,6 +18,12 @@ class RegisterController{
                 header('Location: index.php?route=register');
                 exit();
             }
+            
+            if(strlen($password) < 6){
+                $_SESSION['error'] = "Mật khẩu của bạn phải lớn hơn 6 kí tự";
+                header('Location: index.php?route=register');
+                exit();
+            }
             if($password !== $confirm_password){
                 $_SESSION['error'] = "PassWord không trùng khớp với nhau xin vui lòng thử lại!";
                 header('location: index.php?route=register');
@@ -26,6 +32,11 @@ class RegisterController{
             if($this->userModel->checkUser($username)){
                 $_SESSION['error'] = "Tên đăng nhập đã tồn tại! Vui lòng chỉnh lại!";
                 header('Location: index.php?route=register');
+                exit();
+            }
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $_SESSION['error'] = "Email sai định dạng, vui lòng nhập lại!";
+                header("Location: index.php?route=register");
                 exit();
             }
             $internis = $this->userModel->registerUser($username,$password,$email);

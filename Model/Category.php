@@ -1,7 +1,6 @@
 <?php
 class Category
 {
-    // Phương thức cho CategoryController
     public function getAllCategory()
     {
         include('Connect.php');

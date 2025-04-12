@@ -73,9 +73,7 @@
                 </thead>
                 <tbody>
                     <?php
-                        // echo('<pre>');
-                        // print_r($products);
-                        // echo('</pre>');
+
                     foreach ($products as $product): ?>
                         <tr>
                             <td><?= $product['product_id'] ?></td>
@@ -105,38 +103,38 @@
         </div>
 
         <!-- PHÂN TRANG -->
-<?php if ($total_pages > 1): ?>
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center mt-4">
-            <!-- Nút Previous -->
-            <?php if ($page > 1): ?>
-                <li class="page-item">
-                    <a class="page-link" href="index.php?route=admin/products&page=<?= $page - 1 ?>" aria-label="Previous">
-                        &laquo;
-                    </a>
-                </li>
-            <?php endif; ?>
+        <?php if ($total_pages > 1): ?>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-4">
+                    <!-- Nút Previous -->
+                    <?php if ($page > 1): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="index.php?route=admin/products&page=<?= $page - 1 ?>" aria-label="Previous">
+                                &laquo;
+                            </a>
+                        </li>
+                    <?php endif; ?>
 
-            <!-- Các trang -->
-            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                    <a class="page-link" href="index.php?route=admin/products&page=<?= $i ?>">
-                        <?= $i ?>
-                    </a>
-                </li>
-            <?php endfor; ?>
+                    <!-- Các trang -->
+                    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                        <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                            <a class="page-link" href="index.php?route=admin/products&page=<?= $i ?>">
+                                <?= $i ?>
+                            </a>
+                        </li>
+                    <?php endfor; ?>
 
-            <!-- Nút Next -->
-            <?php if ($page < $total_pages): ?>
-                <li class="page-item">
-                    <a class="page-link" href="index.php?route=admin/products&page=<?= $page + 1 ?>" aria-label="Next">
-                        &raquo;
-                    </a>
-                </li>
-            <?php endif; ?>
-        </ul>
-    </nav>
-<?php endif; ?>
+                    <!-- Nút Next -->
+                    <?php if ($page < $total_pages): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="index.php?route=admin/products&page=<?= $page + 1 ?>" aria-label="Next">
+                                &raquo;
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+        <?php endif; ?>
 
     </div>
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body>
-    <!-- Navigation Menu -->
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
@@ -17,19 +19,19 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link <?= $route == 'admin/products' ? 'active' : '' ?>" 
-                           href="index.php?route=admin/products">Quản lý sản phẩm</a>
+                        <a class="nav-link <?= $route == 'admin/products' ? 'active' : '' ?>"
+                            href="index.php?route=admin/products">Quản lý sản phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= $route == 'admin/categories' ? 'active' : '' ?>" 
-                           href="index.php?route=admin/categories">Quản lý danh mục</a>
+                        <a class="nav-link <?= $route == 'admin/categories' ? 'active' : '' ?>"
+                            href="index.php?route=admin/categories">Quản lý danh mục</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Quản lý đơn hàng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= $route == 'admin/coupons' ? 'active' : '' ?>" 
-                           href="index.php?route=admin/coupons">Quản lý mã giảm giá</a>
+                        <a class="nav-link <?= $route == 'admin/coupons' ? 'active' : '' ?>"
+                            href="index.php?route=admin/coupons">Quản lý mã giảm giá</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -50,20 +52,20 @@
         </div>
 
         <!-- Thông báo -->
-        <?php if(isset($_SESSION['success'])): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Thêm mã giảm giá thành công!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Thêm mã giảm giá thành công!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
 
-        <?php if(isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            Có lỗi xảy ra khi thêm mã giảm giá!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-           <?php unset($_SESSION['error']); ?>
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Có lỗi xảy ra khi thêm mã giảm giá!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
 
         <!-- Bảng hiển thị mã giảm giá -->
@@ -81,7 +83,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
+                            <?php
                             if (!empty($coupons)) {
                                 foreach ($coupons as $coupon) {
                                     $id = isset($coupon['Coupon_id']) ? $coupon['Coupon_id'] : '';
@@ -95,17 +97,17 @@
                                         <td><?= number_format($discount, 0, ',', '.') ?> VND</td>
                                         <td><?= date('d/m/Y', strtotime($expiry)) ?></td>
                                         <td>
-                                            <button class="btn btn-warning btn-sm" 
-                                                    onclick="editCoupon(<?= $id ?>, '<?= $code ?>', <?= $discount ?>, '<?= $expiry ?>')">
+                                            <button class="btn btn-warning btn-sm"
+                                                onclick="editCoupon(<?= $id ?>, '<?= $code ?>', <?= $discount ?>, '<?= $expiry ?>')">
                                                 <i class="fas fa-edit"></i> Sửa
                                             </button>
-                                            <button class="btn btn-danger btn-sm" 
-                                                    onclick="deleteCoupon(<?= $id ?>)">
+                                            <button class="btn btn-danger btn-sm"
+                                                onclick="deleteCoupon(<?= $id ?>)">
                                                 <i class="fas fa-trash"></i> Xóa
                                             </button>
                                         </td>
                                     </tr>
-                            <?php 
+                            <?php
                                 }
                             } else {
                                 echo '<tr><td colspan="5" class="text-center">Không có mã giảm giá nào</td></tr>';
@@ -187,32 +189,33 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-    function deleteCoupon(id) {
-        Swal.fire({
-            title: 'Xác nhận xóa?',
-            text: "Bạn có chắc muốn xóa mã giảm giá này?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = 'index.php?route=admin/delete_coupon&id=' + id;
-            }
-        });
-    }
+        function deleteCoupon(id) {
+            Swal.fire({
+                title: 'Xác nhận xóa?',
+                text: "Bạn có chắc muốn xóa mã giảm giá này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'index.php?route=admin/delete_coupon&id=' + id;
+                }
+            });
+        }
 
-    function editCoupon(id, code, discount, expiry) {
-        document.getElementById('edit_id').value = id;
-        document.getElementById('edit_code').value = code;
-        document.getElementById('edit_discount').value = discount;
-        document.getElementById('edit_expiry').value = expiry;
-        
-        var editModal = new bootstrap.Modal(document.getElementById('editCouponModal'));
-        editModal.show();
-    }
+        function editCoupon(id, code, discount, expiry) {
+            document.getElementById('edit_id').value = id;
+            document.getElementById('edit_code').value = code;
+            document.getElementById('edit_discount').value = discount;
+            document.getElementById('edit_expiry').value = expiry;
+
+            var editModal = new bootstrap.Modal(document.getElementById('editCouponModal'));
+            editModal.show();
+        }
     </script>
 </body>
+
 </html>

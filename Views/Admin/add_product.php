@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.php?route=admin/products">Trang Quản Lý Sản Phẩm</a>

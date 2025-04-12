@@ -5,7 +5,7 @@ class UserModel {
     private $conn;
 
     public function __construct() {
-        global $conn; // Sử dụng biến $conn từ file Database.php
+        global $conn; 
         $this->conn = $conn;
     }
 

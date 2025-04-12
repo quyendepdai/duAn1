@@ -86,7 +86,7 @@
                 VALUES (:id, :name, :price, :description, :product_img, :category_id)';
                 $stmt = $conn->prepare($sql);
 
-                // Bind các tham số
+             
                 $stmt->bindParam(':id', $next_id);
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':price', $price);

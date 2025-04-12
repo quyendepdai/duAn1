@@ -1,11 +1,11 @@
 <?php
 class Order
 {
-    // Phương thức cho CategoryController
+    
     public function addIntoOrder($user_id,$date,$totalMoney)
     {
         include('Connect.php');
-         // Lấy ID lớn nhất hiện tại
+        
         $sql = "SELECT MAX(order_id) as max_id FROM `order`";
         $stmt = $conn->prepare($sql);
         $stmt->execute();

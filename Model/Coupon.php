@@ -6,7 +6,7 @@ class Coupon {
         require_once('Connect.php');
         global $conn;
         $this->conn = $conn;
-    }
+    } 
     public function checkCoupon($code) {
         $sql = "SELECT * FROM coupon 
                 WHERE Code = :code 
@@ -45,7 +45,7 @@ class Coupon {
             return $stmt->execute();
         } catch(PDOException $e) {
             error_log("Error adding coupon: " . $e->getMessage());
-            return false;  // Thay vì throw Exception
+            return false;
         }
     }
 
